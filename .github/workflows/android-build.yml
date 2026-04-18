@@ -1,0 +1,20 @@
+name: Build Android libzt
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Android NDK
+        run: sudo apt-get update && sudo apt-get install -y android-sdk-ndk cmake
+      - name: Build AAR
+        run: |
+          chmod +x build.sh
+          ./build.sh android-aar
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: libzt-aar
+          path: build/outputs/aar/*.aar # عدل المسار حسب مخرجات السكربت
